@@ -30,7 +30,9 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 
-public class  Controller implements Initializable {
+public class  MainControler implements Initializable {
+
+
 
     @FXML JFXTextField txt_ser;
     @FXML Text text;
@@ -76,7 +78,7 @@ public class  Controller implements Initializable {
 
     }
 
-    void initData(User user) {
+    public void initData(User user) {
         this.user=user;
         text.setText("USER Login: "+user.getFirstName()+" "+user.getLastName());
     }
@@ -308,26 +310,7 @@ private boolean isUserIsCreated(User user,ProductDAO product,SessionFactory fact
     return false;
     }
 
-//    private ProductDAO productDAO(Product product){
-//        SessionFactory factory = new Configuration()
-//                .configure()
-//                .addAnnotatedClass(ProductDAO.class)
-//                .buildSessionFactory();
-//        try (Session session = factory.getCurrentSession()) {
-//
-//
-//            session.beginTransaction();
-//
-//            ProductDAO productDAO = session.get(ProductDAO.class, product.getId());
-//
-//            session.getTransaction().commit();
-//            return productDAO;
-//        } catch (Exception e) {
-//            System.out.println("ppp"+e.getMessage());
-//        }
-//return  null;
-//
-//    }
+
 
     private void updateData(){
         SessionFactory factory = new Configuration()

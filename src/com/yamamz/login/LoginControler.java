@@ -1,4 +1,4 @@
-package main;
+package com.yamamz.login;
 
 import com.jfoenix.controls.JFXComboBox;
 
@@ -17,6 +17,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import main.MainControler;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -63,7 +65,7 @@ public class LoginControler implements Initializable {
             if(isValidPassword){
                 System.out.println("Success");
                 ((Stage) combo_user.getScene().getWindow()).close();
-               showCustomerDialog(theUser);
+               showMainDialog(theUser);
             }
         } catch (Exception e) {
            System.out.println(e.getMessage());
@@ -71,7 +73,7 @@ public class LoginControler implements Initializable {
     }
 
 
-    public Stage showCustomerDialog(User user) throws IOException {
+    public Stage showMainDialog(User user) throws IOException {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource(
                         "sample.fxml"
@@ -85,10 +87,10 @@ public class LoginControler implements Initializable {
                 )
         );
 
-       Controller controller =
-                loader.<Controller>getController();
+       MainControler controller =
+                loader.<MainControler>getController();
         controller.initData(user);
-
+       stage.setResizable(false);
         stage.show();
 
         return stage;

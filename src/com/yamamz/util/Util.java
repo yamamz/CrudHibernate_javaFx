@@ -12,7 +12,8 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.Controller;
+
+import main.MainControler;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -163,7 +164,7 @@ public class Util {
            //
             //setStageIcon(stage);
         } catch (IOException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainControler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -179,13 +180,13 @@ public class Util {
             stage.setTitle(title);
 
 
-
+            stage.setResizable(false);
             stage.setScene(new Scene(parent));
             stage.show();
             //
             //setStageIcon(stage);
         } catch (IOException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainControler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

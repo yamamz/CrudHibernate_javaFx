@@ -16,7 +16,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("Inventory App");
         //primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.setResizable(false);
+
         primaryStage.show();
     }
 

@@ -1,4 +1,4 @@
-package main;
+package com.yamamz.login;
 
 import com.jfoenix.controls.JFXComboBox;
 import javafx.application.Application;

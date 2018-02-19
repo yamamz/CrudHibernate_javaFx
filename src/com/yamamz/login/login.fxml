@@ -5,7 +5,7 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="176.0" prefWidth="335.0" stylesheets="@../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.LoginControler">
+<AnchorPane prefHeight="176.0" prefWidth="335.0" stylesheets="@../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yamamz.login.LoginControler">
    <children>
       <JFXButton layoutX="58.0" layoutY="115.0" onAction="#Login" prefHeight="40.0" prefWidth="110.0" text="login" />
       <JFXPasswordField fx:id="password" layoutX="32.0" layoutY="73.0" prefHeight="30.0" prefWidth="274.0" promptText="password" />
