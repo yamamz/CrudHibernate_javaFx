@@ -1,14 +1,31 @@
-package com.yamamz;
+package com.yamamz.util;
 
+import com.yamamz.Product;
+import com.yamamz.ProductDAO;
+import com.yamamz.User;
+import com.yamamz.util.PasswordUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import main.Controller;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import javax.persistence.Query;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by admin on 2/16/2018.
@@ -128,6 +145,50 @@ public class Util {
 
 
     }
+    public static void loadWindowLogin(URL loc, String title, Stage parentStage) {
+        try {
+            Parent parent = FXMLLoader.load(loc);
+            Stage stage = null;
+            if (parentStage != null) {
+                stage = parentStage;
+            } else {
+                stage = new Stage(StageStyle.DECORATED);
+            }
+            stage.setTitle(title);
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+
+            stage.setScene(new Scene(parent));
+            stage.showAndWait();
+           //
+            //setStageIcon(stage);
+        } catch (IOException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void loadWindowMain(URL loc, String title, Stage parentStage) {
+        try {
+            Parent parent = FXMLLoader.load(loc);
+            Stage stage = null;
+            if (parentStage != null) {
+                stage = parentStage;
+            } else {
+                stage = new Stage(StageStyle.DECORATED);
+            }
+            stage.setTitle(title);
+
+
+
+            stage.setScene(new Scene(parent));
+            stage.show();
+            //
+            //setStageIcon(stage);
+        } catch (IOException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 
 
 }

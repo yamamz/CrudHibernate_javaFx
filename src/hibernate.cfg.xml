@@ -17,8 +17,9 @@
     <property name="current_session_context_class">thread</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
 
+
     <mapping class="com.yamamz.ProductDAO"/>
-
-
+    <mapping class="com.yamamz.Audit"/>
+    <mapping class="com.yamamz.User"/>
   </session-factory>
 </hibernate-configuration>

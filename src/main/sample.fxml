@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="1071.0" stylesheets="@../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
+   <children>
+      <AnchorPane layoutX="14.0" prefHeight="514.0" prefWidth="299.0" style="`: ;" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="5.0">
+         <children>
+            <JFXTextField fx:id="txt_id" editable="false" labelFloat="true" layoutX="30.0" layoutY="70.0" onAction="#txt_id_click" prefHeight="25.0" prefWidth="262.0" promptText="ID" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="7.0" />
+            <JFXTextField fx:id="txt_name" labelFloat="true" layoutX="30.0" layoutY="136.0" onAction="#txt_name_click" prefHeight="25.0" prefWidth="262.0" promptText="Product Name" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="7.0" />
+            <JFXTextField fx:id="txt_desc" labelFloat="true" layoutX="25.0" layoutY="194.0" onAction="#txt_desc_click" prefHeight="25.0" prefWidth="262.0" promptText="Description" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="12.0" />
+            <JFXTextField fx:id="txt_price" labelFloat="true" layoutX="23.0" layoutY="249.0" onAction="#txt_price_click" prefHeight="25.0" prefWidth="262.0" promptText="Price" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="14.0" />
+             <JFXComboBox fx:id="combo_unit" labelFloat="true" layoutX="25.0" layoutY="315.0" onAction="#combo_ubit_click" prefHeight="25.0" prefWidth="262.0" promptText="Unit of Item" style="-jfx-focus-color: #B2B2B2;">
+                 <items>
+                 <FXCollections fx:factory="observableArrayList">
+                     <String fx:value="PC" />
+                     <String fx:value="KILO" />
+                     <String fx:value="DOZEN" />
+                 </FXCollections>
+                 </items>
+             </JFXComboBox>
+            <JFXTextField fx:id="txt_balance" labelFloat="true" layoutX="25.0" layoutY="373.0" onAction="#txt_bal_click" prefHeight="25.0" prefWidth="262.0" promptText="Remaining Balance" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="12.0" />
+            <JFXButton fx:id="btn_save" buttonType="RAISED" layoutX="23.0" layoutY="444.0" onAction="#btn_save_click" prefHeight="37.0" prefWidth="133.0" ripplerFill="#a2c0cd" text="Save" textFill="WHITE" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="143.0" />
+            <JFXButton fx:id="btn_save1" buttonType="RAISED" layoutX="161.0" layoutY="444.0" onAction="#btn_clear_click" prefHeight="37.0" prefWidth="123.0" ripplerFill="#a2c0cd" text="Clear" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <JFXButton buttonType="RAISED" layoutX="587.0" layoutY="25.0" onAction="#search_btnClick" prefHeight="37.0" prefWidth="117.0" ripplerFill="#a2c0cd" text="Search" textFill="WHITE" />
+      <JFXTextField fx:id="txt_ser" labelFloat="true" layoutX="334.0" layoutY="30.0" prefHeight="26.0" prefWidth="237.0" promptText="Search by Product Name" />
+      <ScrollPane layoutX="334.0" layoutY="75.0" prefHeight="426.0" prefWidth="708.0">
+         <content>
+            <TableView fx:id="tableView" editable="true" prefHeight="424.0" prefWidth="715.0">
+               <columns>
+                  <TableColumn fx:id="id" prefWidth="72.0" text="ID" />
+                  <TableColumn fx:id="name" prefWidth="130.0" text="PRODUCT NAME" />
+                  <TableColumn fx:id="description" minWidth="0.0" prefWidth="172.0" text="DESCRIPTION" />
+                  <TableColumn fx:id="price" prefWidth="88.0" text="PRICE" />
+                  <TableColumn fx:id="balance" prefWidth="125.0" text="INVENTORY BAL" />
+                  <TableColumn fx:id="date" prefWidth="131.0" text="DATE CREATED" />
+               </columns>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </TableView>
+         </content>
+      </ScrollPane>
+      <Text fx:id="text" fill="WHITE" layoutX="812.0" layoutY="523.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="229.99999207258224" />
+
+
+   </children>
+</AnchorPane>

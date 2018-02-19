@@ -10,5 +10,7 @@
     <orderEntry type="library" name="jfoenix-8.0.1" level="project" />
     <orderEntry type="library" name="antlr-2.7.7" level="project" />
     <orderEntry type="library" name="mysql-connector-java-5.1.45-bin" level="project" />
+    <orderEntry type="library" name="jasypt-1.9.2" level="project" />
+    <orderEntry type="library" name="controlsfx-8.40.14" level="project" />
   </component>
 </module>

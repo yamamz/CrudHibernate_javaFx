@@ -3,11 +3,9 @@ package com.yamamz;
 /**
  * Created by admin on 2/15/2018.
  */
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-import javax.persistence.Table;
+import java.util.Set;
 
 /**
  *
@@ -18,6 +16,7 @@ import javax.persistence.Table;
 public class ProductDAO {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="product_id")
     private int id;
 
@@ -38,6 +37,8 @@ public class ProductDAO {
 
     @Column(name="remaining_balance")
     private Double remaining_bal;
+    @OneToMany(mappedBy = "product")
+    private Set<Audit> audits;
 
     public ProductDAO(){
     }
@@ -61,6 +62,13 @@ public class ProductDAO {
         this.id=id;
     }
 
+    public Set<Audit> getAudits() {
+        return audits;
+    }
+
+    public void setAudits(Set<Audit> audits) {
+        this.audits = audits;
+    }
 
     public String getDate() {
         return date;

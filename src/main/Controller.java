@@ -1,23 +1,22 @@
-package sample;
+package main;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.yamamz.Audit;
 import com.yamamz.Product;
 import com.yamamz.ProductDAO;
-import com.yamamz.Util;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
+import com.yamamz.User;
+import com.yamamz.util.Util;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -27,14 +26,14 @@ import javax.persistence.Query;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 
-public class Controller implements Initializable {
+public class  Controller implements Initializable {
 
     @FXML JFXTextField txt_ser;
+    @FXML Text text;
     @FXML JFXTextField txt_id;
     @FXML JFXTextField txt_name;
     @FXML JFXTextField txt_desc;
@@ -51,26 +50,50 @@ public class Controller implements Initializable {
     @FXML  TableColumn<Product, Double> price;
     @FXML  TableColumn<Product, Double> balance;
     @FXML  TableColumn<Product, String> date;
+    private User user;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        name.setCellValueFactory(new PropertyValueFactory<>("productName"));
-        description.setCellValueFactory(new PropertyValueFactory<>("productDesc"));
-       price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        balance.setCellValueFactory(new PropertyValueFactory<>("remaining_bal"));
-        date.setCellValueFactory(new PropertyValueFactory<>("date"));
-        tableView.getItems().setAll(Util.getProducts());
 
 
-        txt_ser.textProperty().addListener((observable, oldValue, newValue) -> {
-            tableView.getItems().setAll(Util.getProductsLikeName(newValue));
+            id.setCellValueFactory(new PropertyValueFactory<>("id"));
+            name.setCellValueFactory(new PropertyValueFactory<>("productName"));
+            description.setCellValueFactory(new PropertyValueFactory<>("productDesc"));
+            price.setCellValueFactory(new PropertyValueFactory<>("price"));
+            balance.setCellValueFactory(new PropertyValueFactory<>("remaining_bal"));
+            date.setCellValueFactory(new PropertyValueFactory<>("date"));
+            tableView.getItems().setAll(Util.getProducts());
+            txt_ser.textProperty().addListener((observable, oldValue, newValue) -> {
+                tableView.getItems().setAll(Util.getProductsLikeName(newValue));
+            });
+            getTableSelected();
+            idListener();
+            table_rightClick();
+
+            tableView.setColumnResizePolicy(p -> true);
+
+
+            Platform.runLater(() -> customResize(tableView));
+
+    }
+
+    void initData(User user) {
+        this.user=user;
+        text.setText("USER Login: "+user.getFirstName()+" "+user.getLastName());
+    }
+
+    public void customResize(TableView<?> view) {
+
+        AtomicLong width = new AtomicLong();
+        view.getColumns().forEach(col -> {
+            width.addAndGet((long) col.getWidth());
         });
+        double tableWidth = view.getWidth();
 
-        getTableSelected();
-        idListener();
-        table_rightClick();
-
-
+        if (tableWidth > width.get()) {
+            view.getColumns().forEach(col -> {
+                col.setPrefWidth(col.getWidth()+((tableWidth-width.get())/view.getColumns().size()));
+            });
+        }
     }
 private void table_rightClick(){
 
@@ -113,23 +136,58 @@ private void idListener(){
     }
 
     private void getTableSelected(){
-        tableView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
-            //Check whether item is selected and set value of selected item to Label
-            if(tableView.getSelectionModel().getSelectedItem() != null)
-            {
-                Product product=tableView.getSelectionModel().getSelectedItem();
-                txt_id.setText(product.getId().toString());
-                txt_name.setText(product.getProductName());
-                txt_desc.setText(product.getProductDesc());
-                txt_balance.setText(product.getRemaining_bal().toString());
-                txt_price.setText(product.getPrice().toString());
-                combo_unit.setValue(product.getUnit());
+
+            tableView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+                //Check whether item is selected and set value of selected item to Label
+                if (tableView.getSelectionModel().getSelectedItem() != null) {
+                    Product product = tableView.getSelectionModel().getSelectedItem();
+                    ProductDAO productDAO=new ProductDAO(product.getDate(),
+                            product.getProductName(),product.getProductDesc(),
+                            product.getPrice(),product.getUnit(),product.getRemaining_bal(),product.getId());
+                    boolean isCreate=isUserIsCreated(user,productDAO);
+                    if (isCreate) {
+                        enableAllField();
+                        txt_id.setText(product.getId().toString());
+                        txt_name.setText(product.getProductName());
+                        txt_desc.setText(product.getProductDesc());
+                        txt_balance.setText(product.getRemaining_bal().toString());
+                        txt_price.setText(product.getPrice().toString());
+                        combo_unit.setValue(product.getUnit());
+                    }
+                    else{
+                     disAbleAllField();
+                        txt_id.setText(product.getId().toString());
+                        txt_name.setText(product.getProductName());
+                        txt_desc.setText(product.getProductDesc());
+                        txt_balance.setText(product.getRemaining_bal().toString());
+                        txt_price.setText(product.getPrice().toString());
+                        combo_unit.setValue(product.getUnit());
+                    }
+                    //System.out.println("Selected Value" + selectedCells.getClass().ge);
+                }
+            });
 
 
-                //System.out.println("Selected Value" + selectedCells.getClass().ge);
-            }
-        });
     }
+
+    private void disAbleAllField(){
+        txt_id.setDisable(true);
+        txt_name.setDisable(true);
+        txt_desc.setDisable(true);
+        txt_balance.setDisable(true);
+        txt_price.setDisable(true);
+        combo_unit.setDisable(true);
+    }
+
+    private void enableAllField(){
+        txt_id.setDisable(false);
+        txt_name.setDisable(false);
+        txt_desc.setDisable(false);
+        txt_balance.setDisable(false);
+        txt_price.setDisable(false);
+        combo_unit.setDisable(false);
+    }
+
 
     public void search_btnClick(ActionEvent event){
    String searchKey=txt_ser.getText();
@@ -165,7 +223,9 @@ tableView.getItems().setAll(Util.getProductsLikeName(searchKey));
     }
 
     public void btn_save_click(ActionEvent event){
-       if(btn_save.getText()=="Save"){
+       if(btn_save.getText().equals("Save")){
+
+           //System.out.println("test");
            saveData();
        }
        else{
@@ -217,6 +277,57 @@ tableView.getItems().setAll(Util.getProductsLikeName(searchKey));
 
     }
 
+private boolean isUserIsCreated(User user,ProductDAO product){
+    SessionFactory factory = new Configuration()
+            .configure()
+            .addAnnotatedClass(Audit.class)
+            .buildSessionFactory();
+    Session session = factory.getCurrentSession();
+    try  {
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Audit where userId = ?1 AND action= ?2 AND product=?3");
+        query.setParameter(1, user.getId());
+        query.setParameter(2, "Created");
+        query.setParameter(3, product);
+        int result = query.getResultList().size();
+        session.getTransaction().commit();
+
+
+        if (result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    catch (Exception e){
+        System.out.println("fsfg"+e.getMessage());
+    }
+    finally {
+        session.close();
+    }
+    return false;
+    }
+
+//    private ProductDAO productDAO(Product product){
+//        SessionFactory factory = new Configuration()
+//                .configure()
+//                .addAnnotatedClass(ProductDAO.class)
+//                .buildSessionFactory();
+//        try (Session session = factory.getCurrentSession()) {
+//
+//
+//            session.beginTransaction();
+//
+//            ProductDAO productDAO = session.get(ProductDAO.class, product.getId());
+//
+//            session.getTransaction().commit();
+//            return productDAO;
+//        } catch (Exception e) {
+//            System.out.println("ppp"+e.getMessage());
+//        }
+//return  null;
+//
+//    }
 
     private void updateData(){
         SessionFactory factory = new Configuration()
@@ -229,9 +340,14 @@ tableView.getItems().setAll(Util.getProductsLikeName(searchKey));
         String outputText = df.format(new Date());
         try{
             ProductDAO productDAO =new ProductDAO(outputText,txt_name.getText(),txt_desc.getText(),Double.parseDouble(txt_price.getText()), combo_unit.getValue(),Double.parseDouble(txt_balance.getText()),Integer.valueOf(txt_id.getText()));
+            Audit audit=new Audit(user.getId(),productDAO,"Updated",new Date());
+            Set<Audit> itemsSet = new HashSet<>();
+            itemsSet.add(audit);
+            productDAO.setAudits(itemsSet);
 
             session.beginTransaction();
             session.update(productDAO);
+            session.save(audit);
             session.getTransaction().commit();
             System.out.println("Save successfully");
             tableView.getItems().setAll(Util.getProducts());
@@ -244,7 +360,6 @@ tableView.getItems().setAll(Util.getProductsLikeName(searchKey));
         }
         catch(Exception e){
             System.out.println(e.getMessage());
-
         }
 
         finally{
@@ -254,6 +369,7 @@ tableView.getItems().setAll(Util.getProductsLikeName(searchKey));
     }
 
     private void saveData(){
+
         SessionFactory factory = new Configuration()
                 .configure()
                 .addAnnotatedClass(ProductDAO.class)
@@ -264,8 +380,15 @@ tableView.getItems().setAll(Util.getProductsLikeName(searchKey));
             DateFormat df=new SimpleDateFormat("MM-dd-yyyy", Locale.US);
             String outputText = df.format(new Date());
             ProductDAO productDAO =new ProductDAO(outputText,txt_name.getText(),txt_desc.getText(),Double.parseDouble(txt_price.getText()), combo_unit.getValue(),Double.parseDouble(txt_balance.getText()));
+            Audit audit=new Audit(user.getId(),productDAO,"Created",new Date());
+            Set<Audit> itemsSet = new HashSet<>();
+            itemsSet.add(audit);
+
+            productDAO.setAudits(itemsSet);
             session.beginTransaction();
+
             session.save(productDAO);
+            session.save(audit);
             Product product=new Product(productDAO.getId(),productDAO.getDate(),productDAO.getProductName(),
                     productDAO.getProductDesc(),productDAO.getPrice(),productDAO.getRemaining_bal(),productDAO.getUnit());
             System.out.println("Save successfully");
@@ -280,7 +403,7 @@ tableView.getItems().setAll(Util.getProductsLikeName(searchKey));
 
         }
         catch(Exception e){
-            System.out.println(e.getMessage());
+
 
         }
 
