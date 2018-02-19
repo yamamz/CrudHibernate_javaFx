@@ -131,12 +131,15 @@ private void idListener(){
        });
 }
     public void btn_clear_click(ActionEvent actionEvent){
-
+enableAllField();
         clear_allValue();
     }
 
     private void getTableSelected(){
-
+        SessionFactory factory = new Configuration()
+                .configure()
+                .addAnnotatedClass(Audit.class)
+                .buildSessionFactory();
             tableView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
                 //Check whether item is selected and set value of selected item to Label
                 if (tableView.getSelectionModel().getSelectedItem() != null) {
@@ -144,7 +147,7 @@ private void idListener(){
                     ProductDAO productDAO=new ProductDAO(product.getDate(),
                             product.getProductName(),product.getProductDesc(),
                             product.getPrice(),product.getUnit(),product.getRemaining_bal(),product.getId());
-                    boolean isCreate=isUserIsCreated(user,productDAO);
+                    boolean isCreate=isUserIsCreated(user,productDAO,factory);
                     if (isCreate) {
                         enableAllField();
                         txt_id.setText(product.getId().toString());
@@ -277,11 +280,8 @@ tableView.getItems().setAll(Util.getProductsLikeName(searchKey));
 
     }
 
-private boolean isUserIsCreated(User user,ProductDAO product){
-    SessionFactory factory = new Configuration()
-            .configure()
-            .addAnnotatedClass(Audit.class)
-            .buildSessionFactory();
+private boolean isUserIsCreated(User user,ProductDAO product,SessionFactory factory){
+
     Session session = factory.getCurrentSession();
     try  {
         session.beginTransaction();
