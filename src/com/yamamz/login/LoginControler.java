@@ -5,8 +5,8 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.yamamz.ProductDAO;
 import com.yamamz.User;
+import com.yamamz.main.Controller;
 import com.yamamz.util.UserDAO;
-import com.yamamz.util.Util;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,7 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import main.MainControler;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -76,7 +76,7 @@ public class LoginControler implements Initializable {
     public Stage showMainDialog(User user) throws IOException {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource(
-                        "sample.fxml"
+                        "/com/yamamz/main/sample.fxml"
                 )
         );
 
@@ -87,8 +87,8 @@ public class LoginControler implements Initializable {
                 )
         );
 
-       MainControler controller =
-                loader.<MainControler>getController();
+       Controller controller =
+                loader.<Controller>getController();
         controller.initData(user);
        stage.setResizable(false);
         stage.show();

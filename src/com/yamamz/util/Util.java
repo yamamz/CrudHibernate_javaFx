@@ -2,8 +2,6 @@ package com.yamamz.util;
 
 import com.yamamz.Product;
 import com.yamamz.ProductDAO;
-import com.yamamz.User;
-import com.yamamz.util.PasswordUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import main.MainControler;
+import com.yamamz.main.Controller;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -22,8 +20,6 @@ import javax.persistence.Query;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -164,7 +160,7 @@ public class Util {
            //
             //setStageIcon(stage);
         } catch (IOException ex) {
-            Logger.getLogger(MainControler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -186,7 +182,7 @@ public class Util {
             //
             //setStageIcon(stage);
         } catch (IOException ex) {
-            Logger.getLogger(MainControler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

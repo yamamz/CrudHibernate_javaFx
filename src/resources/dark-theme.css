@@ -1,7 +1,3 @@
-/* 
-    Created on : 11 Nov, 2017, 4:42:53 AM
-    Author     : afsal villan
-*/
 
 * {
 
@@ -46,7 +42,7 @@ combo-box .combo-box-popup .list-view, .combo-box .combo-box-popup .list-cell {
 
 .combo-box .cell{
     -fx-text-fill: white;
-    -fx-font: 14px "Calibri";
+    -fx-font: 16px "Calibri";
 }
 
 
@@ -266,4 +262,10 @@ combo-box .combo-box-popup .list-view, .combo-box .combo-box-popup .list-cell {
 
 .status-bar{
 fx-background:fx-secondary;
+}
+
+.card-pane{
+-fx-background-color:derive(-fx-primary, 20%);
+  -fx-background-radius: 1em;
+
 }

@@ -1,4 +1,4 @@
-package main;
+package com.yamamz.main;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -23,6 +23,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import javax.persistence.Query;
+import javax.swing.*;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,7 +31,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 
-public class  MainControler implements Initializable {
+public class Controller implements Initializable {
 
 
 
@@ -247,20 +248,24 @@ tableView.getItems().setAll(Util.getProductsLikeName(searchKey));
         Session session =factory.getCurrentSession();
 
 
-
+        Product product = tableView.getSelectionModel().getSelectedItem();
         try{
 
             session.beginTransaction();
-            Query query = session.createQuery("Delete ProductDAO where id = :id");
-            query.setParameter("id",id);
-            int result = query.executeUpdate();
+            Query q = session.createQuery("from ProductDAO where id = :id ");
+            q.setParameter("id", id);
+            ProductDAO productDAO1= (ProductDAO) q.getResultList().get(0);
 
-            if (result > 0) {
-                System.out.println("product was removed");
-                Product product=tableView.getSelectionModel().getSelectedItem();
-             tableView.getItems().remove(product);
-                clear_allValue();
+            for (Audit sdr : productDAO1.getAudits()){
+                session.delete(sdr);
             }
+            session.delete(productDAO1);
+
+
+
+            System.out.println("product was removed");
+            tableView.getItems().remove(product);
+            clear_allValue();
 
 
             session.getTransaction().commit();
