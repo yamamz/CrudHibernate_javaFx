@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 
@@ -14,6 +15,7 @@
             <JFXButton layoutX="122.0" layoutY="229.0" onAction="#Login" prefHeight="40.0" prefWidth="110.0" text="login" />
             <JFXPasswordField fx:id="password" labelFloat="true" layoutX="40.0" layoutY="153.0" prefHeight="30.0" prefWidth="274.0" promptText="password" />
             <JFXComboBox fx:id="combo_user" labelFloat="true" layoutX="40.0" layoutY="97.0" prefHeight="30.0" prefWidth="274.0" promptText="Name" />
+            <JFXTextField fx:id="txt_user" labelFloat="true" layoutX="40.0" layoutY="64.0" prefHeight="30.0" prefWidth="274.0" promptText="Username" />
          </children>
          <effect>
             <DropShadow color="#9a9191" spread="0.24" />

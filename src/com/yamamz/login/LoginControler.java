@@ -3,10 +3,13 @@ package com.yamamz.login;
 import com.jfoenix.controls.JFXComboBox;
 
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import com.yamamz.ProductDAO;
 import com.yamamz.User;
 import com.yamamz.main.Controller;
+import com.yamamz.util.PasswordUtils;
 import com.yamamz.util.UserDAO;
+import com.yamamz.util.UtilUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,7 +38,8 @@ import java.util.ResourceBundle;
 public class LoginControler implements Initializable {
     @FXML JFXComboBox<User> combo_user;
     @FXML JFXPasswordField password;
-    ObservableList<User> usernames;
+    @FXML JFXTextField txt_user;
+    private ObservableList<User> usernames;
     private User theUser;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,21 +55,30 @@ public class LoginControler implements Initializable {
         theUser = combo_user.getValue();
 
         System.out.println(theUser);
-        int userId = theUser.getId();
-       boolean admin = theUser.isAdmin();
+//        int userId = theUser.getId();
+     //  boolean admin = theUser.isAdmin();
 
         String plainTextPassword = password.getText();
-        theUser.setPassword(plainTextPassword);
+        //theUser.setPassword(plainTextPassword);
 
         // check the user's password against the encrypted version in the database
         try {
+           // boolean isValidPassword = UserDAO.authenticate(theUser);
 
-            boolean isValidPassword = UserDAO.authenticate(theUser);
+            theUser= UtilUser.getUserAuthenticate(txt_user.getText());
 
-            if(isValidPassword){
-                System.out.println("Success");
-                ((Stage) combo_user.getScene().getWindow()).close();
-               showMainDialog(theUser);
+            if(theUser!=null) {
+
+                String encryptedPasswordFromDatabase = theUser.getPassword();
+                // compare the passwords
+                Boolean isValidPassword = PasswordUtils.checkPassword(plainTextPassword, encryptedPasswordFromDatabase);
+                
+                if (isValidPassword) {
+                    System.out.println("Success");
+                    ((Stage) combo_user.getScene().getWindow()).close();
+                    showMainDialog(theUser);
+                }
+
             }
         } catch (Exception e) {
            System.out.println(e.getMessage());
