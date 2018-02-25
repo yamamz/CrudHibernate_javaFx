@@ -72,7 +72,7 @@ public class LoginControler implements Initializable {
                 String encryptedPasswordFromDatabase = theUser.getPassword();
                 // compare the passwords
                 Boolean isValidPassword = PasswordUtils.checkPassword(plainTextPassword, encryptedPasswordFromDatabase);
-                
+
                 if (isValidPassword) {
                     System.out.println("Success");
                     ((Stage) combo_user.getScene().getWindow()).close();
