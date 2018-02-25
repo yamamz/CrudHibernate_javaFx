@@ -13,7 +13,7 @@
          <children>
             <JFXButton layoutX="122.0" layoutY="229.0" onAction="#Login" prefHeight="40.0" prefWidth="110.0" text="login" />
             <JFXPasswordField fx:id="password" labelFloat="true" layoutX="40.0" layoutY="153.0" prefHeight="30.0" prefWidth="274.0" promptText="password" />
-            <JFXComboBox fx:id="combo_user" labelFloat="true" layoutX="40.0" layoutY="95.0" prefHeight="27.0" prefWidth="274.0" promptText="username" />
+            <JFXComboBox fx:id="combo_user" labelFloat="true" layoutX="40.0" layoutY="97.0" prefHeight="30.0" prefWidth="274.0" promptText="Name" />
          </children>
          <effect>
             <DropShadow color="#9a9191" spread="0.24" />

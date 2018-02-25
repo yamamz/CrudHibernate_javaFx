@@ -9,7 +9,7 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name="audit_history")
+@Table(name="product_audit_history")
 public class Audit {
 @Id
 @GeneratedValue(strategy=GenerationType.IDENTITY)

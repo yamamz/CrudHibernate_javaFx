@@ -54,6 +54,11 @@ public class Controller implements Initializable {
     @FXML  TableColumn<Product, Double> balance;
     @FXML  TableColumn<Product, String> date;
     private User user;
+    private SessionFactory factoryAudtit = new Configuration()
+            .configure()
+            .addAnnotatedClass(Audit.class)
+            .buildSessionFactory();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -113,10 +118,17 @@ private void table_rightClick(){
 
     tableView.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
         if(t.getButton() == MouseButton.SECONDARY) {
+            Product product = tableView.getSelectionModel().getSelectedItem();
+            ProductDAO productDAO=new ProductDAO(product.getDate(),
+                    product.getProductName(),product.getProductDesc(),
+                    product.getPrice(),product.getUnit(),product.getRemaining_bal(),product.getId());
+
+            boolean isCreate=isUserIsCreated(user,productDAO,factoryAudtit);
+
+            if(isCreate)
             cm.show(tableView, t.getScreenX(), t.getScreenY());
         }
         else{
-
             cm.hide();
         }
     });
@@ -139,10 +151,7 @@ enableAllField();
     }
 
     private void getTableSelected(){
-        SessionFactory factory = new Configuration()
-                .configure()
-                .addAnnotatedClass(Audit.class)
-                .buildSessionFactory();
+
             tableView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
                 //Check whether item is selected and set value of selected item to Label
                 if (tableView.getSelectionModel().getSelectedItem() != null) {
@@ -150,7 +159,7 @@ enableAllField();
                     ProductDAO productDAO=new ProductDAO(product.getDate(),
                             product.getProductName(),product.getProductDesc(),
                             product.getPrice(),product.getUnit(),product.getRemaining_bal(),product.getId());
-                    boolean isCreate=isUserIsCreated(user,productDAO,factory);
+                    boolean isCreate=isUserIsCreated(user,productDAO,factoryAudtit);
                     if (isCreate) {
                         enableAllField();
                         txt_id.setText(product.getId().toString());
@@ -183,9 +192,11 @@ enableAllField();
         txt_balance.setDisable(true);
         txt_price.setDisable(true);
         combo_unit.setDisable(true);
+        btn_save.setDisable(true);
     }
 
     private void enableAllField(){
+        btn_save.setDisable(false);
         txt_id.setDisable(false);
         txt_name.setDisable(false);
         txt_desc.setDisable(false);
