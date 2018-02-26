@@ -50,6 +50,10 @@ public class UtilUser {
 
             session.getTransaction().commit();
         }
+        finally {
+            factory.close();
+        }
+
         return user;
 
     }
@@ -72,6 +76,9 @@ public class UtilUser {
 
             return encryptedPassword;
         }
+        finally {
+            factory.close();
+        }
     }
 
     public static ArrayList<User> getUserNames(){
@@ -89,7 +96,11 @@ public class UtilUser {
             ArrayList<User> userArrayList=(ArrayList<User>) query.getResultList();
             userNames=userArrayList;
             session.getTransaction().commit();
+            factory.close();
             return userNames;
+        }
+        finally {
+            factory.close();
         }
 
     }

@@ -293,7 +293,7 @@ tableView.getItems().setAll(Util.getProductsLikeName(searchKey));
         }
 
         finally{
-            factory.close();
+           session.close();
         }
 
     }
@@ -362,7 +362,7 @@ private boolean isUserIsCreated(User user,ProductDAO product,SessionFactory fact
         }
 
         finally{
-            factory.close();
+           session.close();
         }
 
     }
@@ -407,7 +407,7 @@ private boolean isUserIsCreated(User user,ProductDAO product,SessionFactory fact
         }
 
         finally{
-            factory.close();
+           session.close();
         }
 
 

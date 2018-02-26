@@ -17,7 +17,7 @@ public class Audit {
     @Column(name="user_id") private int userId;
 
     @Column(name="action") private String action;
-    @Column(name="action_date") private Date actionDate;
+    @Column(name="action_date_time") private Date actionDate;
 
     @ManyToOne
     @JoinColumn(name="product_id",nullable = false)

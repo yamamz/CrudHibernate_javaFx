@@ -75,7 +75,7 @@ public class Util {
         }
 
         finally{
-            factory.close();
+            session.close();
         }
 
 
@@ -133,7 +133,8 @@ public class Util {
         }
 
         finally{
-            factory.close();
+           session.close();
+           factory.close();
         }
 
 

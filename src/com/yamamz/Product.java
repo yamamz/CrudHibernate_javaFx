@@ -26,7 +26,6 @@ public class Product {
         this.productName = new SimpleStringProperty(productName);
         this.productDesc = new SimpleStringProperty(productDesc);
         this.price = new SimpleDoubleProperty(price);
-
         this.remaining_bal = new SimpleDoubleProperty(remaining_bal);
         this.unit= new SimpleStringProperty(unit);
     }

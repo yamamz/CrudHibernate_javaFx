@@ -132,6 +132,8 @@ public class LoginControler implements Initializable {
             session.save(user);
             session.getTransaction().commit();
         }
-
+finally {
+            factory.close();
+        }
     }
 }
